@@ -1,27 +1,22 @@
 class Solution {
 public:
     int maxArea(vector<int>& height) {
-        int max_water = 0;
-        int left = 0;
-        int right = height.size() - 1;
+        int n = height.size();
+        int area = 0;
+        int curr_area = 0;
+        int i=0;
+        int j = n - 1;
+        while(i<j) {
+            int width = j - i;
+            curr_area = width * min(height[i], height[j]);
+            area = max(area, curr_area);
 
-        while (left < right) {
-            // 1. Calculate width and height
-            int width = right - left;
-            int current_height = min(height[left], height[right]);
-            
-            // 2. Track the maximum product
-            int current_water = width * current_height;
-            max_water = max(max_water, current_water);
-
-            // 3. Move the pointer with the shorter bar
-            if (height[left] < height[right]) {
-                left++;
-            } else {
-                right--;
+            if(height[i]<=height[j]){
+                i++;
+            }else{
+                j--;
             }
         }
-
-        return max_water;
+        return area;
     }
 };
