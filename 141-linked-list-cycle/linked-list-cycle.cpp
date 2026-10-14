@@ -6,24 +6,19 @@
  *     ListNode(int x) : val(x), next(NULL) {}
  * };
  */
-
 class Solution {
 public:
-    bool hasCycle(ListNode* head) {
-
-        ListNode* slow = head;
-        ListNode* fast = head;
-
-        while (fast != NULL && fast->next != NULL) {
-
-            slow = slow->next;
-            fast = fast->next->next;
-
-            if (slow == fast) {
+    bool hasCycle(ListNode *head) {
+        unordered_set<ListNode*> seen;
+        ListNode * curr=head;
+        while(curr!=NULL){
+            if(seen.find(curr)!=seen.end()){
                 return true;
             }
+            seen.insert(curr);
+            curr = curr -> next;
         }
-
         return false;
+        
     }
 };
