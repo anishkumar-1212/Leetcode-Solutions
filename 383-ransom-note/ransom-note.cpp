@@ -1,14 +1,13 @@
 class Solution {
 public:
     bool canConstruct(string ransomNote, string magazine) {
-        unordered_map<char, int> freq;
-        //counting the frequency of ransomNOte
-        for(char c:magazine){
-            freq[c]++;
+        unordered_map<int, int> freq;
+        for(char c: magazine){
+            freq[c-'a']++;
         }
-        for(char x: ransomNote){
-            if(freq[x]>0){
-                freq[x]--;
+        for(char c: ransomNote){
+            if(freq[c-'a']>0){
+                freq[c-'a']--;
             }else{
                 return false;
             }
