@@ -11,21 +11,35 @@
 class Solution {
 public:
     bool isPalindrome(ListNode* head) {
-        vector<int> ans;
-        ListNode* temp = head;
-        while (temp != NULL) {
-            ans.push_back(temp->val);
-            temp = temp->next;
+        // mid find krenge
+        ListNode* slow = head;
+        ListNode* fast = head;
+        while (fast != NULL && fast->next != NULL) {
+            slow = slow->next;
+            fast = fast->next->next;
         }
-        // array compare from both end
-        int i = 0;
-        int j = ans.size() - 1;
-        while (i < j) {
-            if (ans[i] != ans[j]) {
+
+        //second half ko reverse krenge
+        ListNode* prev = NULL;
+        ListNode* curr = slow;
+        while (curr != NULL) {
+            ListNode* next = curr->next;
+            curr->next = prev;
+            prev = curr;
+            curr=next;
+        }
+
+        // compare the value
+
+        ListNode* first = head;
+        ListNode* second = prev;
+
+        while (second!=NULL) {
+            if (first->val != second->val) {
                 return false;
             }
-            i++;
-            j--;
+            first = first->next;
+            second = second->next;
         }
         return true;
     }
