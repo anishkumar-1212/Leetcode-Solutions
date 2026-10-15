@@ -1,48 +1,54 @@
+
 class Solution {
 public:
     vector<int> searchRange(vector<int>& nums, int target) {
         int n = nums.size();
 
-        // Find first occurrence
-        int first = 0;
-        int last = n - 1;
-        int first_occ = -1;
+        if (nums.empty()) {
+            return {-1, -1};
+        }
 
-        while (first <= last) {
-            int mid = (first + last) / 2;
+        int lower_bound = -1;
+        int upper_bound = -1;
 
-            if (nums[mid] == target) {
-                first_occ = mid;
-                last = mid - 1;       // search left
-            }
-            else if (nums[mid] < target) {
-                first = mid + 1;      // search right
-            }
-            else {
-                last = mid - 1;       // search left
+        // 1. Find the first occurrence
+        int left = 0, right = n - 1;
+
+        while (left <= right) {
+            int mid = left + (right - left) / 2;
+
+            if (nums[mid] >= target) {
+                if (nums[mid] == target) {
+                    lower_bound = mid;
+                }
+                right = mid - 1;
+            } else {
+                left = mid + 1;
             }
         }
 
-        // Find last occurrence
-        first = 0;
-        last = n - 1;
-        int last_occ = -1;
+        // Target does not exist
+        if (lower_bound == -1) {
+            return {-1, -1};
+        }
 
-        while (first <= last) {
-            int mid = (first + last) / 2;
+        // 2. Find the last occurrence
+        left = 0;
+        right = n - 1;
 
-            if (nums[mid] == target) {
-                last_occ = mid;
-                first = mid + 1;      // search right
-            }
-            else if (nums[mid] < target) {
-                first = mid + 1;      // search right
-            }
-            else {
-                last = mid - 1;       // search left
+        while (left <= right) {
+            int mid = left + (right - left) / 2;
+
+            if (nums[mid] <= target) {
+                if (nums[mid] == target) {
+                    upper_bound = mid;
+                }
+                left = mid + 1;
+            } else {
+                right = mid - 1;
             }
         }
 
-        return {first_occ, last_occ};
+        return {lower_bound, upper_bound};
     }
 };
